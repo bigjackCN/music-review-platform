@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/music_review
+    username: music_admin
+    password: music_pass
+    driver-class-name: org.postgresql.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+server:
+  port: 8080

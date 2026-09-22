@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: music-review-db
+    environment:
+      POSTGRES_USER: music_admin
+      POSTGRES_PASSWORD: music_pass
+      POSTGRES_DB: music_review
+    ports:
+      - "5432:5432"
+    volumes:
+      - music_review_data:/var/lib/postgresql/data
+
+volumes:
+  music_review_data:
