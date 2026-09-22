@@ -7,6 +7,32 @@
     <select id="findAll" resultType="io.github.bigjackcn.musicreview.entity.Album">
         SELECT id, title, artist, release_year, genre, created_at
         FROM album
+        ORDER BY id
     </select>
+
+    <select id="findById" resultType="io.github.bigjackcn.musicreview.entity.Album">
+        SELECT id, title, artist, release_year, genre, created_at
+        FROM album
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="io.github.bigjackcn.musicreview.entity.Album"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO album (title, artist, release_year, genre)
+        VALUES (#{title}, #{artist}, #{releaseYear}, #{genre})
+    </insert>
+
+    <update id="update" parameterType="io.github.bigjackcn.musicreview.entity.Album">
+        UPDATE album
+        SET title = #{title},
+            artist = #{artist},
+            release_year = #{releaseYear},
+            genre = #{genre}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM album WHERE id = #{id}
+    </delete>
 
 </mapper>
