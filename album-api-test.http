@@ -1,0 +1,33 @@
+### 获取所有 album
+GET http://localhost:8080/api/albums
+
+### 创建一个新 album
+POST http://localhost:8080/api/albums
+Content-Type: application/json
+
+{
+  "title": "In Rainbows",
+  "artist": "Radiohead",
+  "releaseYear": 2007,
+  "genre": "Experimental Rock"
+}
+
+### 根据 id 查询（先跑完上面的 POST，看返回的 id 是多少，改成对应的数字）
+GET http://localhost:8080/api/albums/2
+
+### 更新 album
+PUT http://localhost:8080/api/albums/2
+Content-Type: application/json
+
+{
+  "title": "In Rainbows (Deluxe)",
+  "artist": "Radiohead",
+  "releaseYear": 2007,
+  "genre": "Experimental Rock"
+}
+
+### 删除 album
+DELETE http://localhost:8080/api/albums/2
+
+### 确认删除成功（应该返回 404，或者列表里没有了）
+GET http://localhost:8080/api/albums/2
