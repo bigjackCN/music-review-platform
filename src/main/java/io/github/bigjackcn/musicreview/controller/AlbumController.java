@@ -1,5 +1,6 @@
 package io.github.bigjackcn.musicreview.controller;
 
+import io.github.bigjackcn.musicreview.dto.AlbumDetailResponse;
 import io.github.bigjackcn.musicreview.entity.Album;
 import io.github.bigjackcn.musicreview.service.AlbumService;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,7 @@ public class AlbumController {
     }
 
     @GetMapping("/{id}")
-    public Album getAlbumById(@PathVariable Long id) {
-        return albumService.getAlbumById(id);
-    }
+    public AlbumDetailResponse getAlbumById(@PathVariable Long id) { return albumService.getAlbumDetail(id); }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
