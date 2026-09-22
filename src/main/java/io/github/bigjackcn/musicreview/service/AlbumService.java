@@ -1,7 +1,9 @@
 package io.github.bigjackcn.musicreview.service;
 
+import io.github.bigjackcn.musicreview.dto.AlbumDetailResponse;
 import io.github.bigjackcn.musicreview.entity.Album;
 import io.github.bigjackcn.musicreview.mapper.AlbumMapper;
+import io.github.bigjackcn.musicreview.mapper.ReviewMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +12,18 @@ import java.util.List;
 public class AlbumService {
 
     private final AlbumMapper albumMapper;
+    private final ReviewMapper reviewMapper;
 
-    public AlbumService(AlbumMapper albumMapper) {
+    public AlbumService(AlbumMapper albumMapper, ReviewMapper reviewMapper) {
         this.albumMapper = albumMapper;
+        this.reviewMapper = reviewMapper;
+    }
+
+    public AlbumDetailResponse getAlbumDetail(Long id) {
+        Album album = getAlbumById(id); // 复用已有的方法，不存在会抛 404
+        Double avgRating = reviewMapper.getAverageRating(id);
+        Integer count = reviewMapper.getReviewCount(id);
+        return new AlbumDetailResponse(album, avgRating, count);
     }
 
     public List<Album> getAllAlbums() {

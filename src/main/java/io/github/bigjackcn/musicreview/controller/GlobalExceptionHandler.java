@@ -23,4 +23,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleBadCredentials(Exception ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
     }
+
+    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDataIntegrityViolation(
+            org.springframework.dao.DataIntegrityViolationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Invalid data: please check your input (e.g. rating must be between 1 and 5)");
+    }
 }

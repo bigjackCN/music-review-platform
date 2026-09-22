@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.bigjackcn.musicreview.mapper.ReviewMapper">
+
+    <select id="findById" resultType="io.github.bigjackcn.musicreview.entity.Review">
+        SELECT id, album_id, user_id, rating, comment, created_at, updated_at
+        FROM review
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByAlbumId" resultType="io.github.bigjackcn.musicreview.entity.Review">
+        SELECT id, album_id, user_id, rating, comment, created_at, updated_at
+        FROM review
+        WHERE album_id = #{albumId}
+        ORDER BY created_at DESC
+    </select>
+
+    <select id="findByUserAndAlbum" resultType="io.github.bigjackcn.musicreview.entity.Review">
+        SELECT id, album_id, user_id, rating, comment, created_at, updated_at
+        FROM review
+        WHERE user_id = #{userId} AND album_id = #{albumId}
+    </select>
+
+    <insert id="insert" parameterType="io.github.bigjackcn.musicreview.entity.Review"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO review (album_id, user_id, rating, comment)
+        VALUES (#{albumId}, #{userId}, #{rating}, #{comment})
+    </insert>
+
+    <update id="update" parameterType="io.github.bigjackcn.musicreview.entity.Review">
+        UPDATE review
+        SET rating = #{rating},
+            comment = #{comment},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM review WHERE id = #{id}
+    </delete>
+
+    <select id="getAverageRating" resultType="java.lang.Double">
+        SELECT AVG(rating) FROM review WHERE album_id = #{albumId}
+    </select>
+
+    <select id="getReviewCount" resultType="int">
+        SELECT COUNT(*) FROM review WHERE album_id = #{albumId}
+    </select>
+
+</mapper>
