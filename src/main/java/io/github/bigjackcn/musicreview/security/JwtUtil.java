@@ -11,11 +11,12 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    // 生产环境这个 secret 要放到环境变量里，不要硬编码
-    private final SecretKey key = Keys.hmacShaKeyFor(
-            "this-is-a-very-long-secret-key-for-jwt-signing-change-me".getBytes());
+    private final SecretKey key;
+    private final long expirationMs = 24 * 60 * 60 * 1000;
 
-    private final long expirationMs = 24 * 60 * 60 * 1000; // 24小时
+    public JwtUtil(@org.springframework.beans.factory.annotation.Value("${jwt.secret}") String secret) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+    }
 
     public String generateToken(String username) {
         return Jwts.builder()
