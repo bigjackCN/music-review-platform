@@ -1,5 +1,6 @@
 package io.github.bigjackcn.musicreview.mapper;
 
+import io.github.bigjackcn.musicreview.dto.AlbumSummary;
 import io.github.bigjackcn.musicreview.entity.Album;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,4 +19,6 @@ public interface AlbumMapper {
     int update(Album album);
 
     int deleteById(@Param("id") Long id);
+
+    List<AlbumSummary> findAllWithStats();
 }
