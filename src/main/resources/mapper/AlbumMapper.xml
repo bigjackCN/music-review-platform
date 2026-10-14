@@ -16,6 +16,16 @@
         WHERE id = #{id}
     </select>
 
+    <select id="findAllWithStats" resultType="io.github.bigjackcn.musicreview.dto.AlbumSummary">
+        SELECT a.id, a.title, a.artist, a.release_year, a.genre,
+               COALESCE(ROUND(AVG(r.rating), 1), 0) AS average_rating,
+               COUNT(r.id) AS review_count
+        FROM album a
+                 LEFT JOIN review r ON r.album_id = a.id
+        GROUP BY a.id
+        ORDER BY average_rating DESC, review_count DESC, a.id
+    </select>
+
     <insert id="insert" parameterType="io.github.bigjackcn.musicreview.entity.Album"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO album (title, artist, release_year, genre)

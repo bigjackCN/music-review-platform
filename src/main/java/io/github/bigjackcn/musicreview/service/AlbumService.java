@@ -1,6 +1,7 @@
 package io.github.bigjackcn.musicreview.service;
 
 import io.github.bigjackcn.musicreview.dto.AlbumDetailResponse;
+import io.github.bigjackcn.musicreview.dto.AlbumSummary;
 import io.github.bigjackcn.musicreview.entity.Album;
 import io.github.bigjackcn.musicreview.mapper.AlbumMapper;
 import io.github.bigjackcn.musicreview.mapper.ReviewMapper;
@@ -57,5 +58,9 @@ public class AlbumService {
         if (rows == 0) {
             throw new AlbumNotFoundException(id);
         }
+    }
+
+    public List<AlbumSummary> getAlbumStats() {
+        return albumMapper.findAllWithStats();
     }
 }

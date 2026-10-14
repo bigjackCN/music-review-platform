@@ -35,3 +35,27 @@ Content-Type: application/json
   "password": "anotherpassword",
   "email": "another@example.com"
 }
+
+### demo users
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{ "username": "alice", "password": "demo12345", "email": "alice@example.com" }
+
+###
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{ "username": "bob", "password": "demo12345", "email": "bob@example.com" }
+
+###
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{ "username": "carol", "password": "demo12345", "email": "carol@example.com" }
+
+###
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{ "username": "dave", "password": "demo12345", "email": "dave@example.com" }
