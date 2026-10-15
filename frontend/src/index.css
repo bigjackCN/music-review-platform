@@ -236,7 +236,8 @@ ul { padding: 0; list-style: none; }
 .track-time { color: var(--ink-3); font-size: 14px; font-variant-numeric: tabular-nums; }
 .track-progress { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; }
 .track-progress span { display: block; height: 100%; background: var(--accent); }
-.bandcamp { display: block; width: 100%; height: 400px; margin-top: 16px; border: 0; }
+.btn--outline { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.btn--outline:hover { border-color: var(--ink-3); opacity: 1; }
 
 /* Reviews */
 .reviews { margin-top: 16px; padding: 0; list-style: none; border-top: 1px solid var(--line); }
@@ -247,3 +248,35 @@ ul { padding: 0; list-style: none; }
 .stars .off { color: var(--line); }
 .review-date { color: var(--ink-3); font-size: 13px; }
 .review-text { margin-top: 6px; max-width: 65ch; color: var(--ink-2); }
+
+/* Account, forms, review input */
+.user-nav { display: flex; align-items: center; gap: 16px; margin-left: auto; font-size: 14px; }
+.user-nav a { color: var(--ink-2); text-decoration: none; }
+.user-nav a:hover { color: var(--ink); }
+.user-name { color: var(--ink); font-weight: 600; }
+.link-btn { padding: 0; background: none; border: 0; color: var(--accent); font: inherit; font-size: 14px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 18px; background: var(--ink); color: var(--ground); border: 0; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; text-decoration: none; }
+.user-nav a.btn { color: var(--ground); }
+.btn:hover { opacity: 0.88; }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.btn--sm { padding: 6px 14px; font-size: 14px; }
+.auth { max-width: 400px; padding-top: 48px; padding-bottom: 80px; }
+.auth-title { font-size: 28px; font-weight: 650; letter-spacing: -0.01em; }
+.auth-switch { margin-top: 20px; color: var(--ink-3); font-size: 14px; }
+.auth-switch a { color: var(--accent); }
+.form { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; margin-top: 24px; }
+.field { display: flex; flex-direction: column; gap: 6px; width: 100%; font-size: 14px; color: var(--ink-2); }
+.field input, .field textarea { width: 100%; padding: 10px 12px; background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; font: inherit; font-size: 16px; resize: vertical; }
+.field input:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.form-error { color: #c0392b; font-size: 14px; }
+@media (prefers-color-scheme: dark) { .form-error { color: #ff8a7a; } }
+.form-hint { margin-top: 16px; color: var(--ink-2); }
+.form-hint a { color: var(--accent); }
+.review-form { max-width: 560px; padding-bottom: 24px; margin-bottom: 8px; border-bottom: 1px solid var(--line); }
+.form-title { font-size: 16px; font-weight: 650; }
+.star-input { display: flex; gap: 2px; }
+.star { padding: 0 2px; background: none; border: 0; color: var(--line); font-size: 32px; line-height: 1; cursor: pointer; }
+.star.on { color: var(--accent); }
+.star:focus-visible { outline: 2px solid var(--accent); border-radius: 4px; }
+.review-head .link-btn { margin-left: auto; }
+.detail-section .btn--outline { margin-top: 16px; }

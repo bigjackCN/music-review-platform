@@ -1,8 +1,11 @@
 import { Link, Route, Routes } from 'react-router-dom';
 import AlbumList from './pages/AlbumList';
 import AlbumDetail from './pages/AlbumDetail';
+import AuthPage from './pages/AuthPage';
+import { useAuth } from './auth/useAuth';
 
 export default function App() {
+  const { username, logout } = useAuth();
   return (
     <>
       <header className="site-header">
@@ -11,12 +14,27 @@ export default function App() {
             <img src="/brand/logo.svg" alt="" width="34" height="34" />
             <span className="wordmark">Rotten Potatoes</span>
           </Link>
+          <nav className="user-nav" aria-label="Account">
+            {username ? (
+              <>
+                <span className="user-name">{username}</span>
+                <button type="button" className="btn btn--sm btn--outline" onClick={logout}>Sign out</button>
+              </>
+            ) : (
+              <>
+                <Link to="/login">Sign in</Link>
+                <Link className="btn btn--sm" to="/register">Sign up</Link>
+              </>
+            )}
+          </nav>
         </div>
       </header>
       <main>
         <Routes>
           <Route path="/" element={<AlbumList />} />
           <Route path="/albums/:id" element={<AlbumDetail />} />
+          <Route path="/login" element={<AuthPage mode="login" />} />
+          <Route path="/register" element={<AuthPage mode="register" />} />
           <Route
             path="*"
             element={

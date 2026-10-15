@@ -1,8 +1,8 @@
 import { formatDate } from '../lib/format';
 
-export default function ReviewList({ reviews }) {
+export default function ReviewList({ reviews, currentUser, onDelete }) {
   if (reviews.length === 0) {
-    return <p className="empty">No reviews yet.</p>;
+    return <p className="empty">No reviews yet. Be the first.</p>;
   }
 
   return (
@@ -16,6 +16,11 @@ export default function ReviewList({ reviews }) {
               <span className="off">{'★'.repeat(5 - r.rating)}</span>
             </span>
             <time className="review-date" dateTime={r.createdAt}>{formatDate(r.createdAt)}</time>
+            {currentUser === r.username && (
+              <button type="button" className="link-btn" onClick={() => onDelete(r.id)}>
+                Delete
+              </button>
+            )}
           </div>
           {r.comment && <p className="review-text">{r.comment}</p>}
         </li>
