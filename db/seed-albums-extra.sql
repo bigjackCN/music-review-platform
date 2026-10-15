@@ -80,7 +80,7 @@ SELECT a.id, v.n, v.t, v.d, v.u FROM album a,
   (1, 'Deadman', 235787, 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/af/a2/05/afa20551-da20-7271-ab45-526c4bf36b24/mzaf_11005730029315251183.plus.aac.p.m4a')
   ) AS v(n, t, d, u)
 WHERE a.title = 'Deadman' AND a.artist = 'KUN';
-INSERT INTO album (title, artist, release_year, genre) SELECT 'Asian River', 'Hualun (花伦)', 2010, 'Experimental' WHERE NOT EXISTS (SELECT 1 FROM album WHERE title = 'Asian River' AND artist = 'Hualun (花伦)');
+INSERT INTO album (title, artist, release_year, genre) SELECT 'Asian River', 'Hualun (花伦)', 2010, 'Post-Rock' WHERE NOT EXISTS (SELECT 1 FROM album WHERE title = 'Asian River' AND artist = 'Hualun (花伦)');
 UPDATE album SET cover_url = 'https://f4.bcbits.com/img/a0493747800_5.jpg' WHERE title = 'Asian River' AND artist = 'Hualun (花伦)';
 UPDATE album SET bandcamp_id = 2797230705 WHERE title = 'Asian River' AND artist = 'Hualun (花伦)';
 DELETE FROM track WHERE album_id IN (SELECT id FROM album WHERE title = 'Asian River' AND artist = 'Hualun (花伦)');
