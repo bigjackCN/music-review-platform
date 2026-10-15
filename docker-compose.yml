@@ -10,6 +10,43 @@ services:
       - "5432:5432"
     volumes:
       - music_review_data:/var/lib/postgresql/data
+      # Run only when the data volume is empty (first start): schema, then demo data in order.
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+      - ./db/seed-itunes.sql:/docker-entrypoint-initdb.d/03-seed-itunes.sql:ro
+      - ./db/seed-albums-extra.sql:/docker-entrypoint-initdb.d/04-seed-albums-extra.sql:ro
+      - ./db/seed-users.sql:/docker-entrypoint-initdb.d/05-seed-users.sql:ro
+      - ./db/seed-reviews.sql:/docker-entrypoint-initdb.d/06-seed-reviews.sql:ro
+      - ./db/seed-reviews-more.sql:/docker-entrypoint-initdb.d/07-seed-reviews-more.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U music_admin -d music_review"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # The two services below only start with:  docker compose --profile app up --build
+  # (plain `docker compose up -d` keeps starting just the database for local development)
+  backend:
+    profiles: ["app"]
+    build: ./backend
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/music_review
+      DB_USERNAME: music_admin
+      DB_PASSWORD: music_pass
+      JWT_SECRET: ${JWT_SECRET:-local-docker-only-secret-change-me-0123456789abcdef}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    profiles: ["app"]
+    build: ./frontend
+    environment:
+      BACKEND_URL: http://backend:8080
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
 
 volumes:
   music_review_data:

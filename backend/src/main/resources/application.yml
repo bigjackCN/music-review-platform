@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/music_review
-    username: music_admin
-    password: music_pass
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/music_review}
+    username: ${DB_USERNAME:music_admin}
+    password: ${DB_PASSWORD:music_pass}
     driver-class-name: org.postgresql.Driver
 
 mybatis:
