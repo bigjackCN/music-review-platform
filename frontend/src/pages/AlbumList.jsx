@@ -2,16 +2,19 @@ import { useEffect, useState } from 'react';
 import { api } from '../api';
 import Cover from '../components/Cover';
 import RatingChart from '../components/RatingChart';
+import ScoreBadge from '../components/ScoreBadge';
 
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 
 export default function AlbumList() {
-  const [albums, setAlbums] = useState(null);
+  const [data, setData] = useState(null);
   const [error, setError] = useState('');
   const [genre, setGenre] = useState('All');
 
   useEffect(() => {
-    api.get('/api/albums/stats').then(setAlbums).catch((e) => setError(e.message));
+    Promise.all([api.get('/api/albums/stats'), api.get('/api/ranking?limit=8')])
+      .then(([albums, ranking]) => setData({ albums, ranking }))
+      .catch((e) => setError(e.message));
   }, []);
 
   if (error) {
@@ -22,11 +25,12 @@ export default function AlbumList() {
       </div>
     );
   }
-  if (!albums) {
+  if (!data) {
     return <div className="notice page" aria-busy="true">Loading albums</div>;
   }
 
-  const top = albums.find((a) => a.reviewCount > 0);
+  const { albums, ranking } = data;
+  const top = ranking[0];
   const genres = ['All', ...new Set(albums.map((a) => a.genre).filter(Boolean))].sort((a, b) =>
     a === 'All' ? -1 : b === 'All' ? 1 : a.localeCompare(b)
   );
@@ -42,18 +46,22 @@ export default function AlbumList() {
               <h2 className="hero-title" id="hero-title">{top.title}</h2>
               <p className="hero-artist">{top.artist}, {top.releaseYear}</p>
               <p className="hero-score">
-                <span className="score">{top.averageRating.toFixed(1)}</span>
+                <span className="score">
+                  {top.positiveRate}
+                  <span className="score-unit">%</span>
+                </span>
                 <span className="score-note">
-                  Highest average rating, from {plural(top.reviewCount, 'review')}
+                  <ScoreBadge rate={top.positiveRate} size={40} />
+                  Of {plural(top.reviewCount, 'review')} are positive. Average rating {top.averageRating.toFixed(1)} out of 5.
                 </span>
               </p>
             </figcaption>
           </figure>
 
           <div className="ranking">
-            <h2 className="section-title">Ratings by album</h2>
-            <p className="section-sub">Average rating out of 5</p>
-            <RatingChart albums={albums} />
+            <h2 className="section-title">Ranking</h2>
+            <p className="section-sub">Share of reviews rated 4 or 5 stars</p>
+            <RatingChart albums={ranking} />
           </div>
         </section>
       )}
@@ -83,7 +91,8 @@ export default function AlbumList() {
               <p className="album-score">
                 {a.reviewCount > 0 ? (
                   <>
-                    <strong>{a.averageRating.toFixed(1)}</strong>
+                    <ScoreBadge rate={a.positiveRate} size={18} />
+                    <strong>{a.positiveRate}%</strong>
                     {plural(a.reviewCount, 'review')}
                   </>
                 ) : (

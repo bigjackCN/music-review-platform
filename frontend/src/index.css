@@ -48,8 +48,11 @@ ul { padding: 0; list-style: none; }
 /* Header and footer */
 .site-header { border-bottom: 1px solid var(--line); }
 .site-header .page { display: flex; align-items: center; height: 64px; }
-.wordmark { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+.brand { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
+.brand img { display: block; }
+.wordmark { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
 .site-footer { border-top: 1px solid var(--line); padding: 20px 0 32px; color: var(--ink-3); font-size: 13px; }
+.site-footer p + p { margin-top: 4px; }
 
 /* Covers */
 .cover {
@@ -84,7 +87,7 @@ ul { padding: 0; list-style: none; }
 .hero-feature .cover { max-width: 440px; }
 .hero-title { margin-top: 20px; font-size: clamp(28px, 4vw, 44px); font-weight: 650; line-height: 1.05; letter-spacing: -0.02em; }
 .hero-artist { margin-top: 6px; color: var(--ink-2); font-size: 18px; }
-.hero-score { display: flex; align-items: flex-end; gap: 16px; margin-top: 20px; }
+.hero-score { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 20px; margin-top: 20px; }
 .score {
   font-size: clamp(88px, 13vw, 152px);
   font-weight: 700;
@@ -92,7 +95,8 @@ ul { padding: 0; list-style: none; }
   letter-spacing: -0.045em;
   font-variation-settings: 'wdth' 80;
 }
-.score-note { max-width: 22ch; padding-bottom: 6px; color: var(--ink-2); font-size: 15px; line-height: 1.35; }
+.score-unit { margin-left: 4px; font-size: 0.4em; letter-spacing: 0; }
+.score-note { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; max-width: 24ch; padding-bottom: 6px; color: var(--ink-2); font-size: 15px; line-height: 1.35; }
 
 @media (max-width: 860px) {
   .hero { grid-template-columns: 1fr; }
@@ -105,7 +109,7 @@ ul { padding: 0; list-style: none; }
 .rank-list { border-top: 1px solid var(--line); }
 .rank-row {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) 3ch;
+  grid-template-columns: 44px minmax(0, 1fr) 76px;
   column-gap: 14px;
   align-items: center;
   padding: 10px 0;
@@ -118,7 +122,8 @@ ul { padding: 0; list-style: none; }
 .bar { height: 10px; margin-top: 6px; background: var(--track); border-radius: 0 4px 4px 0; }
 .bar-fill { height: 100%; background: var(--accent); border-radius: 0 4px 4px 0; transition: width 0.9s cubic-bezier(0.2, 0.7, 0.2, 1); }
 .rank-row:hover .bar-fill, .rank-row:focus-visible .bar-fill { filter: brightness(1.15); }
-.rank-value { text-align: right; font-weight: 650; font-variant-numeric: tabular-nums; }
+.rank-value { display: flex; align-items: center; justify-content: flex-end; gap: 6px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.score-icon { display: block; flex: none; }
 .tip {
   position: absolute;
   z-index: 2;
@@ -161,8 +166,8 @@ ul { padding: 0; list-style: none; }
 }
 .album-title { margin-top: 12px; font-size: 17px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 .album-artist { margin-top: 2px; color: var(--ink-3); font-size: 14px; }
-.album-score { margin-top: 8px; color: var(--ink-3); font-size: 14px; }
-.album-score strong { margin-right: 6px; color: var(--ink); font-size: 16px; font-weight: 650; }
+.album-score { display: flex; align-items: center; gap: 6px; margin-top: 8px; color: var(--ink-3); font-size: 14px; }
+.album-score strong { margin-right: 2px; color: var(--ink); font-size: 16px; font-weight: 650; }
 
 /* States */
 .notice { padding: 56px 0; color: var(--ink-2); }
