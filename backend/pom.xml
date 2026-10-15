@@ -76,9 +76,29 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Integration tests: real PostgreSQL in Docker (version managed by Spring Boot) -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers-postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
+        <!-- Share db/schema.sql with the integration tests so there is one source of truth -->
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>../db</directory>
+                <includes>
+                    <include>schema.sql</include>
+                </includes>
+            </testResource>
+        </testResources>
+
         <plugins>
 
             <!-- Build executable Spring Boot JAR -->
