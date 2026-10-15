@@ -49,6 +49,7 @@ export default function App() {
       <footer className="site-footer">
         <div className="page">
           <p>An independent project inspired by Rotten Tomatoes. Not affiliated with it.</p>
+          <p>Reviews from the demo accounts are sample data, not real people.</p>
           <p>Album artwork and previews from the iTunes Search API. They belong to their respective owners.</p>
         </div>
       </footer>
