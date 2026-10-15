@@ -1,46 +1,67 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../api';
+import { useAuth } from '../auth/useAuth';
+import ReviewForm from '../components/ReviewForm';
 import Cover from '../components/Cover';
 import ReviewList from '../components/ReviewList';
 import ScoreBadge from '../components/ScoreBadge';
 import TrackList from '../components/TrackList';
 import { plural } from '../lib/format';
 
-function BandcampPlayer({ album }) {
-  const dark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-  const bg = dark ? '14171c' : 'e6e9ec';
-  const link = dark ? '7a89ff' : '2f3fd6';
+function BandcampLink({ album }) {
+  const q = encodeURIComponent(`${album.title} ${album.artist}`);
   return (
-    <iframe
-      className="bandcamp"
-      title={`${album.title} on Bandcamp`}
-      loading="lazy"
-      src={`https://bandcamp.com/EmbeddedPlayer/album=${album.bandcampId}/size=large/bgcol=${bg}/linkcol=${link}/tracklist=true/artwork=small/transparent=true/`}
-    />
+    <a
+      className="btn btn--outline"
+      href={`https://bandcamp.com/search?q=${q}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Listen on Bandcamp
+    </a>
   );
 }
 
 export default function AlbumDetail() {
   const { id } = useParams();
+  const { username } = useAuth();
   const [state, setState] = useState({ status: 'loading' });
 
   useEffect(() => {
     let cancelled = false;
-    setState({ status: 'loading' });
     Promise.all([api.get(`/api/albums/${id}`), api.get(`/api/albums/${id}/reviews`)])
       .then(([detail, reviews]) => {
         if (cancelled) return;
         document.title = `${detail.album.title} | Rotten Potatoes`;
-        setState({ status: 'ready', detail, reviews });
+        setState({ status: 'ready', id, detail, reviews });
       })
-      .catch((e) => !cancelled && setState({ status: 'error', message: e.message }));
+      .catch((e) => !cancelled && setState({ status: 'error', id, message: e.message }));
     return () => {
       cancelled = true;
     };
   }, [id]);
 
-  if (state.status === 'loading') {
+  // Reload album stats and reviews after a review is saved or deleted.
+  const refresh = useCallback(async () => {
+    const [detail, reviews] = await Promise.all([
+      api.get(`/api/albums/${id}`),
+      api.get(`/api/albums/${id}/reviews`),
+    ]);
+    setState({ status: 'ready', id, detail, reviews });
+  }, [id]);
+
+  async function removeReview(reviewId) {
+    if (!window.confirm('Delete your review?')) return;
+    try {
+      await api.del(`/api/reviews/${reviewId}`);
+      await refresh();
+    } catch (e) {
+      window.alert(e.message);
+    }
+  }
+
+  if (state.status === 'loading' || state.id !== id) {
     return <div className="notice page" aria-busy="true">Loading album</div>;
   }
   if (state.status === 'error') {
@@ -100,8 +121,8 @@ export default function AlbumDetail() {
           </>
         ) : album.bandcampId ? (
           <>
-            <p className="section-sub">Listen on Bandcamp</p>
-            <BandcampPlayer album={album} />
+            <p className="section-sub">No 30-second previews for this release. Full album streams on Bandcamp.</p>
+            <BandcampLink album={album} />
           </>
         ) : (
           <p className="empty">No preview available for this album.</p>
@@ -110,7 +131,13 @@ export default function AlbumDetail() {
 
       <section className="detail-section" aria-labelledby="reviews-title">
         <h2 className="section-title" id="reviews-title">Reviews</h2>
-        <ReviewList reviews={reviews} />
+        <ReviewForm
+          key={`${id}-${username}-${reviews.find((r) => r.username === username)?.id ?? 'new'}`}
+          albumId={id}
+          existing={reviews.find((r) => r.username === username)}
+          onSaved={refresh}
+        />
+        <ReviewList reviews={reviews} currentUser={username} onDelete={removeReview} />
       </section>
     </div>
   );
