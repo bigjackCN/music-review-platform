@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../api';
 import { useAuth } from '../auth/useAuth';
-import ReviewForm from '../components/ReviewForm';
+import ReviewPanel from '../components/ReviewPanel';
 import Cover from '../components/Cover';
 import ReviewList from '../components/ReviewList';
 import ScoreBadge from '../components/ScoreBadge';
@@ -50,16 +50,6 @@ export default function AlbumDetail() {
     ]);
     setState({ status: 'ready', id, detail, reviews });
   }, [id]);
-
-  async function removeReview(reviewId) {
-    if (!window.confirm('Delete your review?')) return;
-    try {
-      await api.del(`/api/reviews/${reviewId}`);
-      await refresh();
-    } catch (e) {
-      window.alert(e.message);
-    }
-  }
 
   if (state.status === 'loading' || state.id !== id) {
     return <div className="notice page" aria-busy="true">Loading album</div>;
@@ -131,13 +121,13 @@ export default function AlbumDetail() {
 
       <section className="detail-section" aria-labelledby="reviews-title">
         <h2 className="section-title" id="reviews-title">Reviews</h2>
-        <ReviewForm
-          key={`${id}-${username}-${reviews.find((r) => r.username === username)?.id ?? 'new'}`}
+        <ReviewPanel
+          key={`${id}-${username ?? 'guest'}`}
           albumId={id}
-          existing={reviews.find((r) => r.username === username)}
-          onSaved={refresh}
+          myReview={reviews.find((r) => r.username === username)}
+          onChanged={refresh}
         />
-        <ReviewList reviews={reviews} currentUser={username} onDelete={removeReview} />
+        <ReviewList reviews={reviews} currentUser={username} />
       </section>
     </div>
   );

@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { api } from '../api';
 import { useAuth } from '../auth/useAuth';
 
-export default function ReviewForm({ albumId, existing, onSaved }) {
+export default function ReviewForm({ albumId, existing, onSaved, onCancel }) {
   const { username } = useAuth();
   const location = useLocation();
   const [rating, setRating] = useState(existing?.rating ?? 0);
@@ -42,7 +42,7 @@ export default function ReviewForm({ albumId, existing, onSaved }) {
 
   return (
     <form className="form review-form" onSubmit={onSubmit}>
-      <h3 className="form-title">{existing ? 'Update your review' : 'Write a review'}</h3>
+      <h3 className="form-title">{existing ? 'Edit your review' : 'Write a review'}</h3>
       <div className="star-input" role="radiogroup" aria-label="Rating" onMouseLeave={() => setHover(0)}>
         {[1, 2, 3, 4, 5].map((n) => (
           <button
@@ -64,9 +64,16 @@ export default function ReviewForm({ albumId, existing, onSaved }) {
         <textarea rows="3" maxLength={1000} value={comment} onChange={(e) => setComment(e.target.value)} />
       </label>
       {error && <p className="form-error" role="alert">{error}</p>}
-      <button className="btn" type="submit" disabled={busy}>
-        {busy ? 'Saving' : existing ? 'Update review' : 'Submit review'}
-      </button>
+      <div className="review-actions">
+        <button className="btn" type="submit" disabled={busy}>
+          {busy ? 'Saving' : existing ? 'Save changes' : 'Submit review'}
+        </button>
+        {onCancel && (
+          <button className="btn btn--outline" type="button" onClick={onCancel} disabled={busy}>
+            Cancel
+          </button>
+        )}
+      </div>
     </form>
   );
 }

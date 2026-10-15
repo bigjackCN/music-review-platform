@@ -1,6 +1,7 @@
 import { formatDate } from '../lib/format';
+import Stars from './Stars';
 
-export default function ReviewList({ reviews, currentUser, onDelete }) {
+export default function ReviewList({ reviews, currentUser }) {
   if (reviews.length === 0) {
     return <p className="empty">No reviews yet. Be the first.</p>;
   }
@@ -11,16 +12,9 @@ export default function ReviewList({ reviews, currentUser, onDelete }) {
         <li className="review" key={r.id}>
           <div className="review-head">
             <strong className="review-user">{r.username}</strong>
-            <span className="stars" role="img" aria-label={`${r.rating} out of 5`}>
-              {'★'.repeat(r.rating)}
-              <span className="off">{'★'.repeat(5 - r.rating)}</span>
-            </span>
+            {currentUser === r.username && <span className="you">You</span>}
+            <Stars rating={r.rating} />
             <time className="review-date" dateTime={r.createdAt}>{formatDate(r.createdAt)}</time>
-            {currentUser === r.username && (
-              <button type="button" className="link-btn" onClick={() => onDelete(r.id)}>
-                Delete
-              </button>
-            )}
           </div>
           {r.comment && <p className="review-text">{r.comment}</p>}
         </li>
