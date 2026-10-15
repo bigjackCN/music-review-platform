@@ -172,3 +172,78 @@ ul { padding: 0; list-style: none; }
 /* States */
 .notice { padding: 56px 0; color: var(--ink-2); }
 .notice strong { display: block; margin-bottom: 4px; color: var(--ink); font-size: 18px; }
+
+/* Links */
+.album-link, .rank-link, .hero-link { color: inherit; text-decoration: none; }
+.album-link { display: block; }
+.hero-cover-link { display: block; }
+.album-link:hover .album-title, .rank-link:hover, .hero-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.back { display: inline-block; margin-top: 24px; color: var(--ink-2); font-size: 14px; text-decoration: none; }
+.back:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.notice a { color: var(--accent); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Album detail */
+.detail-head {
+  display: grid;
+  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 56px);
+  align-items: end;
+  padding: 24px 0 clamp(32px, 5vw, 56px);
+}
+.detail-title { font-size: clamp(32px, 5vw, 56px); font-weight: 700; line-height: 1.02; letter-spacing: -0.03em; }
+.detail-artist { margin-top: 8px; color: var(--ink-2); font-size: 20px; }
+.detail-meta { margin-top: 4px; color: var(--ink-3); font-size: 15px; }
+.detail-score { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 20px; margin-top: 28px; }
+.score--md { font-size: clamp(64px, 9vw, 96px); }
+.detail-section { padding: clamp(24px, 4vw, 40px) 0; border-top: 1px solid var(--line); }
+.detail-section:last-child { padding-bottom: 64px; }
+.empty { margin-top: 16px; color: var(--ink-3); }
+.detail-score .empty { margin-top: 0; }
+
+@media (max-width: 700px) {
+  .detail-head { grid-template-columns: 1fr; }
+  .detail-head .cover { max-width: 320px; }
+}
+
+/* Tracks and preview player */
+.tracks { margin-top: 16px; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.track {
+  position: relative;
+  display: grid;
+  grid-template-columns: 36px 28px minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.track-play {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.track-play:hover { border-color: var(--accent); }
+.track.is-playing .track-play { background: var(--accent); border-color: var(--accent); color: var(--ground); }
+.track-num { color: var(--ink-3); font-variant-numeric: tabular-nums; text-align: right; }
+.track-title { overflow: hidden; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+.track-time { color: var(--ink-3); font-size: 14px; font-variant-numeric: tabular-nums; }
+.track-progress { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; }
+.track-progress span { display: block; height: 100%; background: var(--accent); }
+.bandcamp { display: block; width: 100%; height: 400px; margin-top: 16px; border: 0; }
+
+/* Reviews */
+.reviews { margin-top: 16px; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.review { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.review-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.review-user { font-weight: 650; }
+.stars { letter-spacing: 1px; }
+.stars .off { color: var(--line); }
+.review-date { color: var(--ink-3); font-size: 13px; }
+.review-text { margin-top: 6px; max-width: 65ch; color: var(--ink-2); }
