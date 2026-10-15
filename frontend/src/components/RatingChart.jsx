@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Cover from './Cover';
 import ScoreBadge from './ScoreBadge';
-
-const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+import { plural } from '../lib/format';
 
 // Horizontal bars: one per album, length = share of positive reviews (0 to 100%).
 export default function RatingChart({ albums }) {
@@ -30,8 +30,6 @@ export default function RatingChart({ albums }) {
           <li
             className="rank-row"
             key={a.id}
-            tabIndex={0}
-            aria-label={`${a.title}, ${a.positiveRate}% positive reviews, average ${a.averageRating.toFixed(1)} out of 5, ${plural(a.reviewCount, 'review')}`}
             onPointerMove={(e) => place(e, a)}
             onPointerLeave={() => setTip(null)}
             onFocus={(e) => place(e, a)}
@@ -40,7 +38,7 @@ export default function RatingChart({ albums }) {
             <Cover album={a} />
             <div>
               <p className="rank-name">
-                {a.title} <span>{a.artist}</span>
+                <Link className="rank-link" to={`/albums/${a.id}`}>{a.title}</Link> <span>{a.artist}</span>
               </p>
               <div className="bar">
                 <div className="bar-fill" style={{ width: grown ? `${a.positiveRate}%` : '0%' }} />

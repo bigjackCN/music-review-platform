@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../api';
 import Cover from '../components/Cover';
 import RatingChart from '../components/RatingChart';
 import ScoreBadge from '../components/ScoreBadge';
-
-const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+import { plural } from '../lib/format';
 
 export default function AlbumList() {
   const [data, setData] = useState(null);
@@ -12,6 +12,7 @@ export default function AlbumList() {
   const [genre, setGenre] = useState('All');
 
   useEffect(() => {
+    document.title = 'Rotten Potatoes';
     Promise.all([api.get('/api/albums/stats'), api.get('/api/ranking?limit=8')])
       .then(([albums, ranking]) => setData({ albums, ranking }))
       .catch((e) => setError(e.message));
@@ -41,9 +42,13 @@ export default function AlbumList() {
       {top && (
         <section className="hero" aria-labelledby="hero-title">
           <figure className="hero-feature">
-            <Cover album={top} />
+            <Link className="hero-cover-link" to={`/albums/${top.id}`} aria-hidden="true" tabIndex={-1}>
+              <Cover album={top} />
+            </Link>
             <figcaption>
-              <h2 className="hero-title" id="hero-title">{top.title}</h2>
+              <h2 className="hero-title" id="hero-title">
+                <Link className="hero-link" to={`/albums/${top.id}`}>{top.title}</Link>
+              </h2>
               <p className="hero-artist">{top.artist}, {top.releaseYear}</p>
               <p className="hero-score">
                 <span className="score">
@@ -85,20 +90,22 @@ export default function AlbumList() {
         <ul className="grid">
           {visible.map((a) => (
             <li className="album" key={a.id}>
-              <Cover album={a} />
-              <h3 className="album-title">{a.title}</h3>
-              <p className="album-artist">{a.artist}, {a.releaseYear}</p>
-              <p className="album-score">
-                {a.reviewCount > 0 ? (
-                  <>
-                    <ScoreBadge rate={a.positiveRate} size={18} />
-                    <strong>{a.positiveRate}%</strong>
-                    {plural(a.reviewCount, 'review')}
-                  </>
-                ) : (
-                  'No reviews yet'
-                )}
-              </p>
+              <Link className="album-link" to={`/albums/${a.id}`}>
+                <Cover album={a} />
+                <h3 className="album-title">{a.title}</h3>
+                <p className="album-artist">{a.artist}, {a.releaseYear}</p>
+                <p className="album-score">
+                  {a.reviewCount > 0 ? (
+                    <>
+                      <ScoreBadge rate={a.positiveRate} size={18} />
+                      <strong>{a.positiveRate}%</strong>
+                      {plural(a.reviewCount, 'review')}
+                    </>
+                  ) : (
+                    'No reviews yet'
+                  )}
+                </p>
+              </Link>
             </li>
           ))}
         </ul>
