@@ -6,7 +6,6 @@ import io.github.bigjackcn.musicreview.entity.Album;
 import io.github.bigjackcn.musicreview.mapper.AlbumMapper;
 import io.github.bigjackcn.musicreview.mapper.ReviewMapper;
 import io.github.bigjackcn.musicreview.mapper.TrackMapper;
-import io.github.bigjackcn.musicreview.mapper.VideoMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,14 +16,12 @@ public class AlbumService {
     private final AlbumMapper albumMapper;
     private final ReviewMapper reviewMapper;
     private final TrackMapper trackMapper;
-    private final VideoMapper videoMapper;
 
     public AlbumService(AlbumMapper albumMapper, ReviewMapper reviewMapper,
-                        TrackMapper trackMapper, VideoMapper videoMapper) {
+                        TrackMapper trackMapper) {
         this.albumMapper = albumMapper;
         this.reviewMapper = reviewMapper;
         this.trackMapper = trackMapper;
-        this.videoMapper = videoMapper;
     }
 
     public AlbumDetailResponse getAlbumDetail(Long id) {
@@ -34,8 +31,7 @@ public class AlbumService {
                 reviewMapper.getAverageRating(id),
                 reviewMapper.getReviewCount(id),
                 reviewMapper.getPositiveRate(id),
-                trackMapper.findByAlbumId(id),
-                videoMapper.findByAlbumId(id));
+                trackMapper.findByAlbumId(id));
     }
 
     public List<Album> getAllAlbums() {
