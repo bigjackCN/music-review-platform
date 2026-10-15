@@ -2,7 +2,6 @@ package io.github.bigjackcn.musicreview.dto;
 
 import io.github.bigjackcn.musicreview.entity.Album;
 import io.github.bigjackcn.musicreview.entity.Track;
-import io.github.bigjackcn.musicreview.entity.Video;
 
 import java.util.List;
 
@@ -12,16 +11,14 @@ public class AlbumDetailResponse {
     private final Integer reviewCount;
     private final Integer positiveRate;
     private final List<Track> tracks;
-    private final List<Video> videos;
 
     public AlbumDetailResponse(Album album, Double averageRating, Integer reviewCount,
-                               Integer positiveRate, List<Track> tracks, List<Video> videos) {
+                               Integer positiveRate, List<Track> tracks) {
         this.album = album;
         this.averageRating = averageRating == null ? 0.0 : Math.round(averageRating * 10) / 10.0;
         this.reviewCount = reviewCount;
         this.positiveRate = positiveRate;
         this.tracks = tracks;
-        this.videos = videos;
     }
 
     public Album getAlbum() { return album; }
@@ -30,5 +27,4 @@ public class AlbumDetailResponse {
     /** Percentage of reviews rated 4 or 5 stars; null when the album has no reviews. */
     public Integer getPositiveRate() { return positiveRate; }
     public List<Track> getTracks() { return tracks; }
-    public List<Video> getVideos() { return videos; }
 }

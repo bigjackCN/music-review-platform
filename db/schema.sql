@@ -42,11 +42,3 @@ CREATE TABLE track (
     preview_url  VARCHAR(500) NOT NULL,
     CONSTRAINT unique_album_track UNIQUE (album_id, track_number)
 );
-
-CREATE TABLE video (
-    id         BIGSERIAL PRIMARY KEY,
-    album_id   BIGINT      NOT NULL REFERENCES album(id) ON DELETE CASCADE,
-    title      VARCHAR(255) NOT NULL,
-    youtube_id VARCHAR(20) NOT NULL,
-    CONSTRAINT unique_album_video UNIQUE (album_id, youtube_id)
-);
