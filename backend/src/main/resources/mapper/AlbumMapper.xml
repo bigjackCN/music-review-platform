@@ -5,13 +5,13 @@
 <mapper namespace="io.github.bigjackcn.musicreview.mapper.AlbumMapper">
 
     <select id="findAll" resultType="io.github.bigjackcn.musicreview.entity.Album">
-        SELECT id, title, artist, release_year, genre, cover_url, created_at
+        SELECT id, title, artist, release_year, genre, cover_url, bandcamp_id, created_at
         FROM album
         ORDER BY id
     </select>
 
     <select id="findById" resultType="io.github.bigjackcn.musicreview.entity.Album">
-        SELECT id, title, artist, release_year, genre, cover_url, created_at
+        SELECT id, title, artist, release_year, genre, cover_url, bandcamp_id, created_at
         FROM album
         WHERE id = #{id}
     </select>

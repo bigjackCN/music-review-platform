@@ -10,6 +10,7 @@ public class Album {
     private Integer releaseYear;
     private String genre;
     private String coverUrl;
+    private Long bandcampId;
     private LocalDateTime createdAt;
 
     // getters and setters
@@ -33,4 +34,7 @@ public class Album {
 
     public String getCoverUrl() { return coverUrl; }
     public void setCoverUrl(String coverUrl) { this.coverUrl = coverUrl; }
+
+    public Long getBandcampId() { return bandcampId; }
+    public void setBandcampId(Long bandcampId) { this.bandcampId = bandcampId; }
 }
