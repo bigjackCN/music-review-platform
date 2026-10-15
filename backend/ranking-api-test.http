@@ -1,0 +1,11 @@
+### Ranking (top 5 by positive-review rate)
+GET http://localhost:8080/api/ranking?limit=5
+
+### All albums with stats
+GET http://localhost:8080/api/albums/stats
+
+### Album detail: tracks, average rating, positive rate
+GET http://localhost:8080/api/albums/2
+
+### Reviews for an album, with usernames
+GET http://localhost:8080/api/albums/2/reviews

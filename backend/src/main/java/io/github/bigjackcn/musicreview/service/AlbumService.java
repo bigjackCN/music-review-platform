@@ -5,6 +5,7 @@ import io.github.bigjackcn.musicreview.dto.AlbumSummary;
 import io.github.bigjackcn.musicreview.entity.Album;
 import io.github.bigjackcn.musicreview.mapper.AlbumMapper;
 import io.github.bigjackcn.musicreview.mapper.ReviewMapper;
+import io.github.bigjackcn.musicreview.mapper.TrackMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,17 +15,22 @@ public class AlbumService {
 
     private final AlbumMapper albumMapper;
     private final ReviewMapper reviewMapper;
+    private final TrackMapper trackMapper;
 
-    public AlbumService(AlbumMapper albumMapper, ReviewMapper reviewMapper) {
+    public AlbumService(AlbumMapper albumMapper, ReviewMapper reviewMapper, TrackMapper trackMapper) {
         this.albumMapper = albumMapper;
         this.reviewMapper = reviewMapper;
+        this.trackMapper = trackMapper;
     }
 
     public AlbumDetailResponse getAlbumDetail(Long id) {
-        Album album = getAlbumById(id); // 复用已有的方法，不存在会抛 404
-        Double avgRating = reviewMapper.getAverageRating(id);
-        Integer count = reviewMapper.getReviewCount(id);
-        return new AlbumDetailResponse(album, avgRating, count);
+        Album album = getAlbumById(id); // throws AlbumNotFoundException (404) if missing
+        return new AlbumDetailResponse(
+                album,
+                reviewMapper.getAverageRating(id),
+                reviewMapper.getReviewCount(id),
+                reviewMapper.getPositiveRate(id),
+                trackMapper.findByAlbumId(id));
     }
 
     public List<Album> getAllAlbums() {
@@ -62,5 +68,9 @@ public class AlbumService {
 
     public List<AlbumSummary> getAlbumStats() {
         return albumMapper.findAllWithStats();
+    }
+
+    public List<AlbumSummary> getRanking(int limit) {
+        return albumMapper.findRanking(limit);
     }
 }

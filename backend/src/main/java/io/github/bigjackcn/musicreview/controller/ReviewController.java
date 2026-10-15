@@ -1,6 +1,7 @@
 package io.github.bigjackcn.musicreview.controller;
 
 import io.github.bigjackcn.musicreview.dto.ReviewRequest;
+import io.github.bigjackcn.musicreview.dto.ReviewResponse;
 import io.github.bigjackcn.musicreview.entity.Review;
 import io.github.bigjackcn.musicreview.service.ReviewService;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class ReviewController {
     }
 
     @GetMapping("/api/albums/{albumId}/reviews")
-    public List<Review> getReviews(@PathVariable Long albumId) {
+    public List<ReviewResponse> getReviews(@PathVariable Long albumId) {
         return reviewService.getReviewsByAlbum(albumId);
     }
 

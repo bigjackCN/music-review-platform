@@ -9,6 +9,7 @@ public class Album {
     private String artist;
     private Integer releaseYear;
     private String genre;
+    private String coverUrl;
     private LocalDateTime createdAt;
 
     // getters and setters
@@ -29,4 +30,7 @@ public class Album {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public String getCoverUrl() { return coverUrl; }
+    public void setCoverUrl(String coverUrl) { this.coverUrl = coverUrl; }
 }

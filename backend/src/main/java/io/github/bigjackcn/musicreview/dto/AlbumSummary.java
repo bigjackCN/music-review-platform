@@ -6,8 +6,10 @@ public class AlbumSummary {
     private String artist;
     private Integer releaseYear;
     private String genre;
+    private String coverUrl;
     private Double averageRating;
     private Long reviewCount;
+    private Integer positiveRate;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -23,4 +25,10 @@ public class AlbumSummary {
     public void setAverageRating(Double averageRating) { this.averageRating = averageRating; }
     public Long getReviewCount() { return reviewCount; }
     public void setReviewCount(Long reviewCount) { this.reviewCount = reviewCount; }
+
+    public String getCoverUrl() { return coverUrl; }
+    public void setCoverUrl(String coverUrl) { this.coverUrl = coverUrl; }
+
+    public Integer getPositiveRate() { return positiveRate; }
+    public void setPositiveRate(Integer positiveRate) { this.positiveRate = positiveRate; }
 }

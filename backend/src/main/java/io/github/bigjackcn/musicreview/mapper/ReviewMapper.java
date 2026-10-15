@@ -16,4 +16,8 @@ public interface ReviewMapper {
     int deleteById(@Param("id") Long id);
     Double getAverageRating(@Param("albumId") Long albumId);
     int getReviewCount(@Param("albumId") Long albumId);
+
+    Integer getPositiveRate(@Param("albumId") Long albumId);
+
+    List<io.github.bigjackcn.musicreview.dto.ReviewResponse> findResponsesByAlbumId(@Param("albumId") Long albumId);
 }

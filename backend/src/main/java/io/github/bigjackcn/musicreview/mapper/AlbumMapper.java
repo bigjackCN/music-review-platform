@@ -21,4 +21,6 @@ public interface AlbumMapper {
     int deleteById(@Param("id") Long id);
 
     List<AlbumSummary> findAllWithStats();
+
+    List<AlbumSummary> findRanking(@Param("limit") int limit);
 }

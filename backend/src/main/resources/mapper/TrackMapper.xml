@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.bigjackcn.musicreview.mapper.TrackMapper">
+
+    <select id="findByAlbumId" resultType="io.github.bigjackcn.musicreview.entity.Track">
+        SELECT id, album_id, track_number, title, duration_ms, preview_url
+        FROM track
+        WHERE album_id = #{albumId}
+        ORDER BY track_number
+    </select>
+
+</mapper>

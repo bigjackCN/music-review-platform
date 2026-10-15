@@ -1,5 +1,6 @@
 package io.github.bigjackcn.musicreview.service;
 
+import io.github.bigjackcn.musicreview.dto.ReviewResponse;
 import io.github.bigjackcn.musicreview.entity.Review;
 import io.github.bigjackcn.musicreview.entity.User;
 import io.github.bigjackcn.musicreview.mapper.ReviewMapper;
@@ -19,8 +20,8 @@ public class ReviewService {
         this.userMapper = userMapper;
     }
 
-    public List<Review> getReviewsByAlbum(Long albumId) {
-        return reviewMapper.findByAlbumId(albumId);
+    public List<ReviewResponse> getReviewsByAlbum(Long albumId) {
+        return reviewMapper.findResponsesByAlbumId(albumId);
     }
 
     public Review submitReview(Long albumId, String username, Integer rating, String comment) {

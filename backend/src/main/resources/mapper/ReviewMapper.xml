@@ -49,4 +49,20 @@
         SELECT COUNT(*) FROM review WHERE album_id = #{albumId}
     </select>
 
+    <select id="getPositiveRate" resultType="java.lang.Integer">
+        SELECT CASE WHEN COUNT(*) = 0 THEN NULL
+                    ELSE ROUND(100.0 * COUNT(*) FILTER (WHERE rating >= 4) / COUNT(*))::int
+               END
+        FROM review
+        WHERE album_id = #{albumId}
+    </select>
+
+    <select id="findResponsesByAlbumId" resultType="io.github.bigjackcn.musicreview.dto.ReviewResponse">
+        SELECT r.id, r.album_id, u.username, r.rating, r.comment, r.created_at, r.updated_at
+        FROM review r
+                 JOIN app_user u ON u.id = r.user_id
+        WHERE r.album_id = #{albumId}
+        ORDER BY r.created_at DESC, r.id DESC
+    </select>
+
 </mapper>
