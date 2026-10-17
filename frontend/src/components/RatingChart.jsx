@@ -35,7 +35,10 @@ export default function RatingChart({ albums }) {
             onFocus={(e) => place(e, a)}
             onBlur={() => setTip(null)}
           >
-            <Cover album={a} size={100} />
+            {/* The title link next to it is the keyboard/screen-reader route, so this one is skipped. */}
+            <Link className="rank-cover" to={`/albums/${a.id}`} tabIndex={-1} aria-hidden="true">
+              <Cover album={a} size={100} />
+            </Link>
             <div>
               <p className="rank-name">
                 <Link className="rank-link" to={`/albums/${a.id}`}>{a.title}</Link> <span>{a.artist}</span>

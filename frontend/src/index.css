@@ -121,7 +121,9 @@ ul { padding: 0; list-style: none; }
   padding: 10px 0;
   border-bottom: 1px solid var(--line);
 }
+.rank-cover { display: block; width: 44px; height: 44px; }
 .rank-row .cover { width: 44px; height: 44px; border-radius: 2px; }
+.rank-row .rank-cover:hover .cover { filter: brightness(1.1); }
 .rank-row .cover--fallback span { display: none; }
 .rank-name { overflow: hidden; font-size: 15px; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; }
 .rank-name span { color: var(--ink-3); font-weight: 400; }
