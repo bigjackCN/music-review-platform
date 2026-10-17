@@ -1,5 +1,7 @@
 # Rotten Potatoes
 
+[![CI](https://github.com/bigjackCN/music-review-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/bigjackCN/music-review-platform/actions/workflows/ci.yml)
+
 A music review platform: browse albums, see a ranking based on how many reviewers liked each one, and sign in to rate and review.
 
 **Live demo:** https://frontend.bravesky-ab4bf45a.centralus.azurecontainerapps.io
@@ -67,6 +69,8 @@ The API is at http://localhost:8080 and the dev site at http://localhost:5173.
 cd backend && mvn test
 ```
 
+GitHub Actions runs the backend tests, the frontend lint and build, and both Docker image builds on every push and pull request.
+
 Unit tests cover JWT handling and the review rules. An integration test starts a real PostgreSQL in a container (Docker must be running) and walks through register, login and review.
 
 ## Deployment
@@ -76,4 +80,4 @@ See [docs/azure-deploy.md](docs/azure-deploy.md) for the step by step Azure setu
 ## Notes
 
 - Reviews and users are made-up sample data. Cover art and previews come from the iTunes Search API.
-- Planned: pagination and search, password reset, GitHub Actions for CI.
+- Planned: pagination and search, password reset.
