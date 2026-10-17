@@ -6,17 +6,24 @@ function hueFrom(text) {
   return h;
 }
 
+// iTunes artwork URLs end in a size such as /600x600bb.jpg and the server serves other sizes too,
+// so small thumbnails can ask for a much smaller file. Other URLs are left alone.
+function sized(url, size) {
+  return size ? url.replace(/\/\d+x\d+bb\.(jpg|png)$/, `/${size}x${size}bb.$1`) : url;
+}
+
 // The album title is always written next to the cover, so the image itself is decorative.
-export default function Cover({ album }) {
+export default function Cover({ album, size }) {
   const [failed, setFailed] = useState(false);
 
   if (album.coverUrl && !failed) {
     return (
       <img
         className="cover"
-        src={album.coverUrl}
+        src={sized(album.coverUrl, size)}
         alt=""
         loading="lazy"
+        decoding="async"
         onError={() => setFailed(true)}
       />
     );

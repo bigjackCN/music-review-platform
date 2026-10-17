@@ -33,6 +33,8 @@ CREATE TABLE review (
     CONSTRAINT unique_user_album_review UNIQUE (user_id, album_id)
 );
 
+CREATE INDEX idx_review_album_id ON review (album_id);
+
 CREATE TABLE track (
     id           BIGSERIAL PRIMARY KEY,
     album_id     BIGINT       NOT NULL REFERENCES album(id) ON DELETE CASCADE,
