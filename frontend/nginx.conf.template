@@ -1,7 +1,28 @@
+# Each access-log line shows how long nginx took (rt) and how long the backend took (urt),
+# plus whether the answer came from the cache (HIT) or the backend (MISS).
+log_format timed '$remote_addr "$request" $status $body_bytes_sent rt=$request_time urt=$upstream_response_time cache=$upstream_cache_status';
+
+# Short-lived cache for the home page's read-only endpoints.
+proxy_cache_path /var/cache/nginx/api levels=1:2 keys_zone=api_cache:5m max_size=50m inactive=10m use_temp_path=off;
+
+# 1 = never cache. Only the two public list endpoints are cached; reviews and
+# album details stay uncached so a user sees their own change immediately.
+map $request_uri $api_nocache {
+    default 1;
+    ~^/api/ranking 0;
+    ~^/api/albums/stats 0;
+}
+
 server {
     listen 80;
     root /usr/share/nginx/html;
     index index.html;
+    access_log /dev/stdout timed;
+
+    gzip on;
+    gzip_min_length 512;
+    gzip_proxied any;
+    gzip_types application/json text/css text/javascript application/javascript image/svg+xml text/plain;
 
     # API requests go to the Spring Boot backend
     location /api/ {
@@ -12,12 +33,31 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_ssl_server_name on;
+        # Ask the backend for plain text so nginx can compress it for the browser.
+        proxy_set_header Accept-Encoding "";
+
+        proxy_cache api_cache;
+        proxy_cache_bypass $api_nocache;
+        proxy_no_cache $api_nocache;
+        proxy_cache_valid 200 30s;
+        # Spring Security marks every response no-store; the 30s cache is our own decision.
+        proxy_ignore_headers Cache-Control Expires;
+        # One visitor refreshes the entry while others are served the stored copy.
+        proxy_cache_lock on;
+        proxy_cache_background_update on;
+        proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+        add_header X-Cache-Status $upstream_cache_status always;
     }
 
     # Fingerprinted build assets can be cached forever
     location /assets/ {
         add_header Cache-Control "public, max-age=31536000, immutable";
         try_files $uri =404;
+    }
+
+    # The HTML shell names the current assets, so browsers must revalidate it
+    location = /index.html {
+        add_header Cache-Control "no-cache";
     }
 
     # Single-page app: unknown paths (e.g. /albums/1 on refresh) fall back to index.html

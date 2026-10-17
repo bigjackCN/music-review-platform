@@ -35,7 +35,7 @@ export default function RatingChart({ albums }) {
             onFocus={(e) => place(e, a)}
             onBlur={() => setTip(null)}
           >
-            <Cover album={a} />
+            <Cover album={a} size={100} />
             <div>
               <p className="rank-name">
                 <Link className="rank-link" to={`/albums/${a.id}`}>{a.title}</Link> <span>{a.artist}</span>

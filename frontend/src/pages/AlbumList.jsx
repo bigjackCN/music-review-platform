@@ -91,7 +91,7 @@ export default function AlbumList() {
           {visible.map((a) => (
             <li className="album" key={a.id}>
               <Link className="album-link" to={`/albums/${a.id}`}>
-                <Cover album={a} />
+                <Cover album={a} size={300} />
                 <h3 className="album-title">{a.title}</h3>
                 <p className="album-artist">{a.artist}, {a.releaseYear}</p>
                 <p className="album-score">
