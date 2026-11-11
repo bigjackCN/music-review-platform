@@ -33,7 +33,7 @@ CREATE TABLE review (
     CONSTRAINT unique_user_album_review UNIQUE (user_id, album_id)
 );
 
-CREATE INDEX idx_review_album_id ON review (album_id);
+CREATE INDEX idx_review_album_created_id ON review (album_id, created_at DESC, id DESC);
 
 CREATE TABLE track (
     id           BIGSERIAL PRIMARY KEY,
